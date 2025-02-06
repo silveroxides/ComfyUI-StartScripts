@@ -61,10 +61,10 @@ echo Going up two directories...
 cd ../..
 
 echo Downloading comfyui-start.bat...
-powershell -Command "Invoke-WebRequest -Uri 'https://github.com/silveroxides/ComfyUI-StartScripts/raw/refs/heads/main/comfyui-start.bat' -OutFile 'comfyui-start.bat'"
+powershell -Command "Invoke-WebRequest -Uri 'https://github.com/silveroxides/ComfyUI-StartScripts/releases/download/v1.0a/comfyui-start.bat' -OutFile 'comfyui-start.bat'"
 
 echo Downloading comfyui.bat...
-powershell -Command "Invoke-WebRequest -Uri 'https://github.com/silveroxides/ComfyUI-StartScripts/raw/refs/heads/main/comfyui.bat' -OutFile 'comfyui.bat'"
+powershell -Command "Invoke-WebRequest -Uri 'https://github.com/silveroxides/ComfyUI-StartScripts/releases/download/v1.0a/comfyui.bat' -OutFile 'comfyui.bat'"
 
 echo.
 echo Installation successful.
