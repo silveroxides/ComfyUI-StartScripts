@@ -1,7 +1,7 @@
 rem @echo off
 
 if not defined PYTHON (set PYTHON=python)
-if defined GIT (set "GIT_PYTHON_GIT_EXECUTABLE=%GIT%")
+if defined GIT_PATH (set "PATH=%GIT_PATH%;%PATH%")
 if not defined VENV_DIR (set "VENV_DIR=%~dp0%venv")
 
 set COMFYUI_RESTART=tmp/restart
