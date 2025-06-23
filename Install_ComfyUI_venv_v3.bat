@@ -153,7 +153,7 @@ if %errorlevel% neq 0 (
 ) else (
     echo NVIDIA Display Container Local System Service found. Drivers are likely installed.
     echo Installing PyTorch for CUDA 12.8...
-    pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu128
+    pip install torch==2.7.0 torchvision==0.22.0 torchaudio==2.7.0 --index-url https://download.pytorch.org/whl/cu128
     if %errorlevel% neq 0 (
       echo WARNING: Failed to install PyTorch with CUDA 12.8 support. Installation will continue, but GPU acceleration might not work.
       pause
