@@ -6,6 +6,6 @@ rem Path to the folder containing your git.exe executable if it is not already i
 rem set GIT_PATH=
 rem Set this to the path of any existing ComfyUI venv if you prefer to use that
 set VENV_DIR=
-set COMMANDLINE_ARGS=--windows-standalone
+set COMMANDLINE_ARGS=--windows-standalone --enable-triton-backend
 
 call comfyui.bat
