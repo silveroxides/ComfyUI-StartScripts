@@ -11,7 +11,7 @@ if %errorlevel% neq 0 (
 )
 
 echo Activating virtual environment...
-call venv\Scripts\activate
+call .venv\Scripts\activate
 if %errorlevel% neq 0 (
   echo ERROR: Failed to activate virtual environment.
   pause
@@ -43,7 +43,7 @@ if %errorlevel% neq 0 (
 echo Cloning or updating ComfyUI-QuantOps...
 if not exist ComfyUI-QuantOps (
   git clone https://github.com/silveroxides/ComfyUI-QuantOps
-  if %errorlevel% neq 0 (
+  if !errorlevel! neq 0 (
     echo ERROR: Failed to clone ComfyUI-QuantOps repository.
     pause
     exit /b
@@ -52,7 +52,7 @@ if not exist ComfyUI-QuantOps (
   echo ComfyUI-QuantOps folder already exists. Checking for updates...
   cd ComfyUI-QuantOps
   git pull
-  if %errorlevel% neq 0 (
+  if !errorlevel! neq 0 (
     echo WARNING: Failed to update ComfyUI-QuantOps via git pull. Proceeding anyway.
   )
   cd ..
@@ -79,7 +79,7 @@ if exist requirements.txt (
 )
 
 echo Downloading custom comfy-kitchen wheel...
-powershell -NoProfile -Command "Invoke-WebRequest -Uri 'https://huggingface.co/silveroxides/comfy-kitchen-int8-wheels/resolve/main/comfy-kitchen-0.2.10-convrot/comfy_kitchen-0.2.10-cp312-abi3-win_amd64.whl' -OutFile 'comfy_kitchen-0.2.10-cp312-abi3-win_amd64.whl'"
+curl.exe -L -o "comfy_kitchen-0.2.10-cp312-abi3-win_amd64.whl" "https://huggingface.co/silveroxides/comfy-kitchen-int8-wheels/resolve/main/comfy-kitchen-0.2.10-convrot/comfy_kitchen-0.2.10-cp312-abi3-win_amd64.whl"
 if %errorlevel% neq 0 (
   echo ERROR: Failed to download comfy-kitchen wheel.
   pause

@@ -95,44 +95,54 @@ pause
 exit /b
 
 :continue_install
-echo Cloning ComfyUI...
-git clone https://github.com/comfyanonymous/ComfyUI
-if %errorlevel% neq 0 (
-  echo ERROR: Failed to clone ComfyUI.
-  pause
-  exit /b
-)
-
-echo Changing directory to ComfyUI...
-cd ComfyUI
-if %errorlevel% neq 0 (
-  echo ERROR: Failed to change directory to ComfyUI.
-  pause
-  exit /b
-)
-
-echo Fetching latest changes and specific Pull Request...
-git fetch
-if %errorlevel% neq 0 (
-  echo ERROR: git fetch failed.
-  pause
-  exit /b
-)
-git pull
-if %errorlevel% neq 0 (
-  echo ERROR: git pull failed.
-  pause
-  exit /b
+if exist ComfyUI (
+  echo ComfyUI directory already exists. Skipping clone.
+  echo Changing directory to ComfyUI...
+  cd ComfyUI
+  if !errorlevel! neq 0 (
+    echo ERROR: Failed to change directory to ComfyUI.
+    pause
+    exit /b
+  )
+  echo Fetching latest changes...
+  git fetch
+  if !errorlevel! neq 0 (
+    echo WARNING: git fetch failed. Proceeding...
+  ) else (
+    git pull
+    if !errorlevel! neq 0 (
+      echo WARNING: git pull failed. Proceeding...
+    )
+  )
+) else (
+  echo Cloning ComfyUI...
+  git clone https://github.com/comfyanonymous/ComfyUI
+  if %errorlevel% neq 0 (
+    echo ERROR: Failed to clone ComfyUI.
+    pause
+    exit /b
+  )
+  echo Changing directory to ComfyUI...
+  cd ComfyUI
+  if %errorlevel% neq 0 (
+    echo ERROR: Failed to change directory to ComfyUI.
+    pause
+    exit /b
+  )
 )
 echo.
 
 
-echo Creating virtual environment...
-python -m venv .venv
-if %errorlevel% neq 0 (
-  echo ERROR: Failed to create virtual environment.
-  pause
-  exit /b
+if exist .venv\Scripts\activate.bat (
+  echo Virtual environment .venv already exists. Skipping creation.
+) else (
+  echo Creating virtual environment...
+  python -m venv .venv
+  if !errorlevel! neq 0 (
+    echo ERROR: Failed to create virtual environment.
+    pause
+    exit /b
+  )
 )
 
 
@@ -208,27 +218,45 @@ if %errorlevel% neq 0 (
   exit /b
 )
 
-echo Cloning ComfyUI-Manager...
-git clone https://github.com/ltdrdata/ComfyUI-Manager
-if %errorlevel% neq 0 (
-  echo WARNING: Failed to clone ComfyUI-Manager. You may need to install it manually later.
+echo Cloning or updating ComfyUI-Manager...
+if not exist ComfyUI-Manager (
+  git clone https://github.com/ltdrdata/ComfyUI-Manager
+  if !errorlevel! neq 0 (
+    echo WARNING: Failed to clone ComfyUI-Manager. You may need to install it manually later.
+  ) else (
+    echo Changing directory to ComfyUI-Manager...
+    cd ComfyUI-Manager
+    if !errorlevel! neq 0 (
+       echo WARNING: Failed to change directory into ComfyUI-Manager. Cannot install its requirements.
+    ) else (
+       if exist requirements.txt (
+          echo Installing ComfyUI-Manager requirements...
+          pip install -r requirements.txt
+          if !errorlevel! neq 0 (
+             echo WARNING: Failed to install ComfyUI-Manager requirements.
+          )
+       ) else (
+          echo No requirements.txt found for ComfyUI-Manager. Skipping.
+       )
+       cd ..
+    )
+  )
 ) else (
-  echo Changing directory to ComfyUI-Manager...
+  echo ComfyUI-Manager folder already exists. Checking for updates...
   cd ComfyUI-Manager
-  if %errorlevel% neq 0 (
-     echo WARNING: Failed to change directory into ComfyUI-Manager. Cannot install its requirements.
+  git pull
+  if !errorlevel! neq 0 (
+     echo WARNING: Failed to update ComfyUI-Manager via git pull.
   ) else (
      if exist requirements.txt (
         echo Installing ComfyUI-Manager requirements...
         pip install -r requirements.txt
-        if %errorlevel% neq 0 (
+        if !errorlevel! neq 0 (
            echo WARNING: Failed to install ComfyUI-Manager requirements.
         )
-     ) else (
-        echo No requirements.txt found for ComfyUI-Manager. Skipping.
      )
-     cd ..
   )
+  cd ..
 )
 
 
@@ -240,16 +268,24 @@ if %errorlevel% neq 0 (
   exit /b
 )
 
-echo Downloading comfyui-start.bat...
-powershell -NoProfile -Command "Invoke-WebRequest -Uri 'https://github.com/silveroxides/ComfyUI-StartScripts/releases/download/v1.0a/comfyui-start.bat' -OutFile 'comfyui-start.bat'"
-if %errorlevel% neq 0 (
-  echo WARNING: Failed to download comfyui-start.bat.
+if exist comfyui-start.bat (
+  echo comfyui-start.bat already exists. Skipping download.
+) else (
+  echo Downloading comfyui-start.bat...
+  curl.exe -L -o "comfyui-start.bat" "https://github.com/silveroxides/ComfyUI-StartScripts/releases/download/v1.0a/comfyui-start.bat"
+  if !errorlevel! neq 0 (
+    echo WARNING: Failed to download comfyui-start.bat.
+  )
 )
 
-echo Downloading comfyui.bat...
-powershell -NoProfile -Command "Invoke-WebRequest -Uri 'https://github.com/silveroxides/ComfyUI-StartScripts/releases/download/v1.0a/comfyui.bat' -OutFile 'comfyui.bat'"
-if %errorlevel% neq 0 (
-  echo WARNING: Failed to download comfyui.bat.
+if exist comfyui.bat (
+  echo comfyui.bat already exists. Skipping download.
+) else (
+  echo Downloading comfyui.bat...
+  curl.exe -L -o "comfyui.bat" "https://github.com/silveroxides/ComfyUI-StartScripts/releases/download/v1.0a/comfyui.bat"
+  if !errorlevel! neq 0 (
+    echo WARNING: Failed to download comfyui.bat.
+  )
 )
 
 echo.
