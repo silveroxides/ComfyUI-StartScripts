@@ -128,7 +128,7 @@ echo.
 
 
 echo Creating virtual environment...
-python -m venv venv
+python -m venv .venv
 if %errorlevel% neq 0 (
   echo ERROR: Failed to create virtual environment.
   pause
@@ -137,7 +137,7 @@ if %errorlevel% neq 0 (
 
 
 echo Activating virtual environment...
-call venv\Scripts\activate
+call .venv\Scripts\activate
 if %errorlevel% neq 0 (
   echo ERROR: Failed to activate virtual environment.
   pause
@@ -185,7 +185,7 @@ echo NVIDIA driver version check passed.
 echo.
 
 echo Installing PyTorch for CUDA 13.0...
-pip install torch==2.12.0 torchvision==0.27.0 torchaudio==2.12.0 --index-url https://download.pytorch.org/whl/cu130
+pip install torch==2.12.0 torchvision==0.27.0 --index-url https://download.pytorch.org/whl/cu130
 if %errorlevel% neq 0 (
     echo WARNING: Failed to install PyTorch with CUDA 13.0 support. Installation will continue, but GPU acceleration might not work.
     pause

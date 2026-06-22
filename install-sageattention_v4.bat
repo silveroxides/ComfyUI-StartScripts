@@ -11,7 +11,7 @@ if %errorlevel% neq 0 (
 )
 
 echo Activating virtual environment...
-call venv\Scripts\activate
+call .venv\Scripts\activate
 if %errorlevel% neq 0 (
   echo ERROR: Failed to activate virtual environment.
   pause
