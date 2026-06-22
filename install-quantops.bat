@@ -11,7 +11,7 @@ if %errorlevel% neq 0 (
 )
 
 echo Activating virtual environment...
-call .venv\Scripts\activate
+call venv\Scripts\activate
 if %errorlevel% neq 0 (
   echo ERROR: Failed to activate virtual environment.
   pause
@@ -79,7 +79,7 @@ if exist requirements.txt (
 )
 
 echo Downloading custom comfy-kitchen wheel...
-powershell -Command "Invoke-WebRequest -Uri 'https://huggingface.co/silveroxides/comfy-kitchen-int8-wheels/resolve/main/comfy-kitchen-0.2.10-convrot/comfy_kitchen-0.2.10-cp312-abi3-win_amd64.whl' -OutFile 'comfy_kitchen-0.2.10-cp312-abi3-win_amd64.whl'"
+powershell -NoProfile -Command "Invoke-WebRequest -Uri 'https://huggingface.co/silveroxides/comfy-kitchen-int8-wheels/resolve/main/comfy-kitchen-0.2.10-convrot/comfy_kitchen-0.2.10-cp312-abi3-win_amd64.whl' -OutFile 'comfy_kitchen-0.2.10-cp312-abi3-win_amd64.whl'"
 if %errorlevel% neq 0 (
   echo ERROR: Failed to download comfy-kitchen wheel.
   pause

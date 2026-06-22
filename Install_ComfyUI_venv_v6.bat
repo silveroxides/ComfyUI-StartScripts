@@ -241,13 +241,13 @@ if %errorlevel% neq 0 (
 )
 
 echo Downloading comfyui-start.bat...
-powershell -Command "Invoke-WebRequest -Uri 'https://github.com/silveroxides/ComfyUI-StartScripts/releases/download/v1.0a/comfyui-start.bat' -OutFile 'comfyui-start.bat'"
+powershell -NoProfile -Command "Invoke-WebRequest -Uri 'https://github.com/silveroxides/ComfyUI-StartScripts/releases/download/v1.0a/comfyui-start.bat' -OutFile 'comfyui-start.bat'"
 if %errorlevel% neq 0 (
   echo WARNING: Failed to download comfyui-start.bat.
 )
 
 echo Downloading comfyui.bat...
-powershell -Command "Invoke-WebRequest -Uri 'https://github.com/silveroxides/ComfyUI-StartScripts/releases/download/v1.0a/comfyui.bat' -OutFile 'comfyui.bat'"
+powershell -NoProfile -Command "Invoke-WebRequest -Uri 'https://github.com/silveroxides/ComfyUI-StartScripts/releases/download/v1.0a/comfyui.bat' -OutFile 'comfyui.bat'"
 if %errorlevel% neq 0 (
   echo WARNING: Failed to download comfyui.bat.
 )
