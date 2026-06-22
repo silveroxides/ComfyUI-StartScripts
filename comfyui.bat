@@ -37,7 +37,7 @@ if %STASHED_CHANGES% == 1 (
 
 echo Update complete.
 
-if not defined VENV_DIR (set "VENV_DIR=%~dp0%venv")
+if not defined VENV_DIR (set "VENV_DIR=%~dp0%.venv")
 
 set COMFYUI_RESTART=tmp/restart
 set ERROR_REPORTING=FALSE
