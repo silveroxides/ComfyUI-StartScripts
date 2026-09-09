@@ -1,0 +1,40 @@
+name: Publish metadata-controlled release
+on:
+  push:
+    branches: [main]
+    paths: ['release.toml']
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: comfyui-release-publication
+  cancel-in-progress: false
+jobs:
+  validate:
+    if: github.ref == 'refs/heads/main'
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.13'
+      - run: python -m unittest discover -s tests -v
+      - run: python scripts/release.py validate
+  publish:
+    needs: validate
+    runs-on: windows-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.13'
+      - name: Publish or update release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_COMMIT: ${{ github.sha }}
+          RELEASE_REPO: ${{ github.repository }}
+        run: python scripts/release.py publish --commit "$env:RELEASE_COMMIT" --repo "$env:RELEASE_REPO"
