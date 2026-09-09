@@ -1,0 +1,27 @@
+version = "v7.0install"
+title = "v7.0install"
+installer = "Install_ComfyUI_venv_v7.bat"
+assets = ["Install_ComfyUI_venv_v7.bat", "comfyui.bat", "comfyui-start.bat"]
+body = '''
+## Install ComfyUI on Windows
+
+Installs ComfyUI, ComfyUI-Manager, and PyTorch 2.12.1 with CUDA 13.0 (cu130).
+
+The installer also includes Triton for Windows, SageAttention, FlashAttention, BlockSparseAttention, and SpargeAttn.
+
+### Requirements
+
+- Windows x64 and standard 64-bit [Python 3.13.13 or a later 3.13 patch](https://www.python.org/downloads/windows/). Select **Add Python to PATH** during installation.
+- [Git for Windows](https://git-scm.com/downloads/win), available from PATH.
+- NVIDIA GPU with **R580 or newer drivers**. A current driver for your GPU is recommended. [NVIDIA drivers](https://www.nvidia.com/en-us/drivers/).
+- Internet access.
+
+### Installation
+
+1. Download **`Install_ComfyUI_venv_v7.bat`** from the assets below. This is the only file you need to download manually.
+2. Place it in the folder where you want the ComfyUI folder created.
+3. Double-click the installer. It installs ComfyUI and downloads the startup scripts automatically.
+4. Press **Enter** at the package prompts to accept the defaults.
+5. When installation finishes, double-click **`comfyui-start.bat` inside the installed `ComfyUI` folder**.
+
+'''
