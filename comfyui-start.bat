@@ -1,11 +1,9 @@
-rem @echo off
-
-rem Path to the folder containing your python.exe ececutable if it is not already in the Path environment variable.
-rem set PYTHON=
-rem Path to the folder containing your git.exe executable if it is not already in the Path environment variable.
-rem set GIT_PATH=
-rem Set this to the path of any existing ComfyUI venv if you prefer to use that (defaults to .venv if undefined)
-set VENV_DIR=
-set COMMANDLINE_ARGS=--windows-standalone --enable-triton-backend
-
-call comfyui.bat
+@echo off
+rem Optional overrides: use an unquoted path as the value inside set "NAME=value".
+rem set "PYTHON=C:\path\to\python.exe"
+rem set "GIT_PATH=C:\path\to\Git\cmd"
+rem set "VENV_DIR=C:\path\to\existing\.venv"
+rem VENV_DIR defaults to .venv beside this script. VENV_DIR=- or SKIP_VENV=1 skips it.
+if not defined COMMANDLINE_ARGS set "COMMANDLINE_ARGS=--windows-standalone"
+call "%~dp0comfyui.bat" %*
+exit /b %errorlevel%
