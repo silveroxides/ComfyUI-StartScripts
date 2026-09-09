@@ -1,0 +1,46 @@
+version = "v7.0install"
+title = "ComfyUI Windows installer v7.0"
+installer = "Install_ComfyUI_venv_v7.bat"
+assets = ["Install_ComfyUI_venv_v7.bat", "comfyui.bat", "comfyui-start.bat"]
+body = '''
+## ComfyUI Windows v7 — unified installation
+
+Download `Install_ComfyUI_venv_v7.bat` into the parent folder where you want ComfyUI installed and double-click it. It creates or updates `ComfyUI`, uses its `.venv`, and installs ComfyUI-Manager as a custom node. You may also download both launcher assets beside the installer; otherwise it downloads missing launchers from this exact release.
+
+### Requirements
+
+- Windows x64 with standard 64-bit **CPython 3.13.13 or a later 3.13 patch**. Python 3.14+, ARM64, 32-bit and free-threaded builds are not supported by the selected wheels. [Python downloads](https://www.python.org/downloads/windows/).
+- [Git for Windows](https://git-scm.com/downloads/win).
+- NVIDIA GPU with an **R580 or newer driver**. Use a current driver for your GPU, especially for JIT kernels. [Driver downloads](https://www.nvidia.com/en-us/drivers/) · [CUDA compatibility](https://docs.nvidia.com/deploy/cuda-compatibility/minor-version-compatibility.html).
+- Internet access and Windows `curl.exe`. Prebuilt cu130 wheels do not require a separate CUDA Toolkit installation merely to install them. Individual kernels have additional GPU/runtime requirements.
+
+### Pinned Torch stack
+
+```text
+pip install torch==2.12.1 torchvision==0.27.1 --index-url https://download.pytorch.org/whl/cu130
+```
+
+CUDA 13.0 (`cu130`) is intentional: the maintainer selected it instead of cu132 because of a reported cu132 bug. As in v6, ComfyUI's original requirements are installed normally, including its TorchAudio requirement from the normal package index. The installer checks the resulting Torch/TorchVision versions; no nonexistent TorchAudio 2.12.1 is requested.
+
+### Optional acceleration — separate [Y/n] prompts
+
+Press Enter for **Yes**, or choose No separately for each:
+
+- Triton for Windows: `triton-windows<3.8`.
+- SageAttention 2.2: `2.2.0+cu130torch2.10.0andhigher.post6`, Windows `cp310-abi3` wheel.
+- FlashAttention: `2.8.4+d20260328cu130torch2.12.0cxx11abiTRUE`, Windows `cp313-cp313` wheel.
+- BlockSparseAttention: `0.0.2.post2+d20260117.cu130torch2.12.1cxx11abiTRUE`, Windows `cp313-cp313` wheel.
+- SpargeAttn: `0.1.0+cu130torch2.9.0andhigher.post4`, Windows `cp39-abi3` wheel.
+
+The abi3 wheels support the selected standard CPython 3.13 interpreter. SageAttention and SpargeAttn need Triton; if it was declined and is unavailable, the installer asks before adding it. Package installation does not automatically activate attention backends. GPU/kernel support varies: successful imports are not proof that every workflow is supported.
+
+The separate `install-sageattention_v4.bat` is **not needed** for v7. No QuantOps or Krea patch is bundled.
+
+### Start and rerun
+
+Start `ComfyUI\comfyui-start.bat`. The default launcher no longer passes the unnecessary `--enable-triton-backend` argument.
+
+Reruns preserve existing environments and launchers. Incompatible environments are not deleted. Customized launchers are not overwritten: review the supplied v7 launchers manually if upgrading. Repository updates are fast-forward-only; local tracked changes or conflicts stop the update without automatic stashing or resetting.
+
+Exit codes: **0** success; **1** prerequisite/core installation failure; **2** core installed but requested extras or the final dependency check failed. Review the final per-package summary and any command errors. Driver and import checks do not replace GPU-workflow testing.
+'''
